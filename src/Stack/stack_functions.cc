@@ -36,8 +36,3 @@ char	pop(Stack **head)
 	free(tmp);
 	return (value);
 }
-
-int main()
-{
-	Stack *head = NULL;
-}
