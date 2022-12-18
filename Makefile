@@ -5,7 +5,7 @@ SRCST = $(addprefix $(STDIR), $(SRCNAMES))
 STOBJ = $(addprefix $(BDIR), $(STNAMES:.cc=.o))
 
 # Shunting yard Sources
-SHNAMES = shuntin_yard_functions.cc
+SHNAMES = shuntin_yard_functions.cc list.cc
 SHDIR = src/ShuntinYard/
 SRCSH = $(addprefix $(SHDIR), $(SHNAMES))
 SHOBJ = $(addprefix $(BDIR), $(SHNAMES:.cc=.o))
@@ -24,7 +24,7 @@ NAME = SORTST
 all: $(BDIR) $(NAME)
 
 $(NAME): $(SHOBJ) $(STOBJ)
-	gcc $(SHOBJ) $(STOBJ) -g -o $(NAME)
+	gcc $(SHOBJ) $(STOBJ) -std=c11 -g -o $(NAME)
 
 # Make obj
 $(BDIR) :

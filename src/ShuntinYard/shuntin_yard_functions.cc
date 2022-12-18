@@ -2,36 +2,20 @@
 // Created by arnisfet on 17.12.22.
 //
 #include "shuntin_yard.h"
-#include "../Stack/stack.h"
 
-
-
-void	shuntin_yard(const char *input)
+void	shuntin_yard()
 {
-	const char *strbegin = input;
-	const char *strend = input + strlen(input);
-	char number[12];
-	char c;
+	const char *input = "1 + 2 * 8";
 
-	while (strbegin < strend)
+	for (int i = 0; input[i]; i++)
 	{
-		c = *strbegin;
-		if (c != ' ')
-		{
-			if (is_num(c))
-			{
-				*output = c;
-				output++;
-			}
-		}
-		strbegin++;
+		//switch statements
 	}
-	printf("%s\n", output);
 }
 
 
 int main()
 {
-	const char *input = "1 + 2 * 8";
-	shuntin_yard(input);
+	List *top = NULL;
+	shuntin_yard();
 }
