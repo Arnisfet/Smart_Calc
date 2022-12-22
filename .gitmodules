@@ -1,0 +1,6 @@
+[submodule "Libft-school_42"]
+	path = Libft-school_42
+	url = https://github.com/Arnisfet/Libft-school_42.git
+[submodule "Libft"]
+	path = Libft
+	url = https://github.com/Arnisfet/Libft.git

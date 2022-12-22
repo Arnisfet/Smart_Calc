@@ -1,40 +1,46 @@
 # Stack Sources
-STNAMES = stack_functions.cc
+STNAMES = stack_functions.c
 STDIR = src/Stack/
 SRCST = $(addprefix $(STDIR), $(SRCNAMES))
-STOBJ = $(addprefix $(BDIR), $(STNAMES:.cc=.o))
+STOBJ = $(addprefix $(BDIR), $(STNAMES:.c=.o))
 
 # Shunting yard Sources
-SHNAMES = shuntin_yard_functions.cc list.cc
+SHNAMES = shuntin_yard_functions.c list.c
 SHDIR = src/ShuntinYard/
 SRCSH = $(addprefix $(SHDIR), $(SHNAMES))
-SHOBJ = $(addprefix $(BDIR), $(SHNAMES:.cc=.o))
+SHOBJ = $(addprefix $(BDIR), $(SHNAMES:.c=.o))
 
 #Build dir
 BDIR = ./bdir/
 
 # Includes
-SHINC = shuntin_yard.h
-STINC = stack.h
+SHINC = src/ShuntinYard/
+STINC = src/Stack/
+LIBINC = Libft/
 
 # Name
 NAME = SORTST
 
+# LIBFT
+LIBFT	=  ./Libft/libft.a
+
 
 all: $(BDIR) $(NAME)
 
-$(NAME): $(SHOBJ) $(STOBJ)
-	gcc $(SHOBJ) $(STOBJ) -std=c11 -g -o $(NAME)
+$(NAME): $(LIBFT) $(SHOBJ) $(STOBJ)
+	gcc -o $(NAME) $(SHOBJ) $(STOBJ) $(LIBFT) -std=c11 -g
 
+$(LIBFT):
+	make -C ./Libft
 # Make obj
 $(BDIR) :
 	mkdir -p $(BDIR)
 
-$(BDIR)%.o:$(SHDIR)%.cc
-	gcc -I $(SHDIR)$(SHINC)  -g -o $@ -c  $<
+$(BDIR)%.o:$(SHDIR)%.c
+	gcc -I$(SHINC) -I$(STINC) -I$(LIBINC) -g -o $@ -c  $<
 
-$(BDIR)%.o:$(STDIR)%.cc
-	gcc -I $(STDIR)$(SHINC)  -g -o $@ -c  $<
+$(BDIR)%.o:$(STDIR)%.c
+	gcc -I$(STINC) -I$(SHINC) -I$(LIBINC) -g -o $@ -c  $<
 
 clean:
 	rm -rf $(SHOBJ) $(STOBJ)
@@ -42,6 +48,7 @@ clean:
 fclean:  clean
 	rm -rf $(NAME)
 	rm -rf $(BDIR)
+	make fclean -C ./Libft
 
 re: fclean all
 

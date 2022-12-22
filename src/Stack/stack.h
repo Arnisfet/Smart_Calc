@@ -7,11 +7,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "libft.h"
 
 typedef struct StructStack
 {
 	char name;
-	StructStack *next;
+	struct StructStack *next;
 } Stack;
 
 
