@@ -11,10 +11,12 @@
 
 typedef struct StructStack
 {
-	char name;
+	char *name;
 	struct StructStack *next;
 } Stack;
 
-
+void	print_stack(Stack *head);
+void	push(Stack **head, char *name);
+char	pop(Stack **head);
 
 #endif //SMART_CALC_STACK_H

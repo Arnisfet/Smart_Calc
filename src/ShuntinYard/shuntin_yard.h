@@ -20,14 +20,17 @@ enum tokens {
 
 typedef struct S_List
 {
-	int number;
+	char *name;
 	struct S_List *next;
-} List;
+} Deque;
 
+Deque *list;
+Stack *stack;
 //Functions of the list structure
 
-void	push_node(List **top, int number);
-int 	pop_node(List **top);
+void	push_node(Deque **top, char *name);
+char	*pop_node(Deque **top);
+void	print_list(Deque **top);
 
 
 #endif //SMART_CALC_SHUNTIN_YARD_H

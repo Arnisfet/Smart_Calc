@@ -9,18 +9,18 @@ void	print_stack(Stack *head)
 		exit(EXIT_FAILURE);
 	while(head)
 	{
-		printf("%c\n", head->name);
+		printf("%s\n", head->name);
 		head = head->next;
 	}
 }
 
-void	push(Stack **head, char name)
+void	push(Stack **head, char *name)
 {
 	Stack *p = NULL;
 	if ((p = (Stack*)malloc(sizeof(Stack))) == NULL)
 		exit (EXIT_FAILURE);
 	p->next = *head;
-	p->name = name;
+	p->name = ft_strdup(name);
 	*head = p;
 }
 
@@ -33,6 +33,7 @@ char	pop(Stack **head)
 	value = (*head)->name;
 	tmp = *head;
 	*head = (*head)->next;
+	free(tmp->name);
 	free(tmp);
 	return (value);
 }
