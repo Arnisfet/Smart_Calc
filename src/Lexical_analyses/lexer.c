@@ -1,10 +1,10 @@
 //
 // Created by arnisfet on 17.12.22.
 //
-#include "parser.h"
+#include "lexical_analyses.h"
 
 
-void check_func(char *pointer, const char *input, int *i)
+void check_func(char *pointer, const char *input, int *i, Queue **list)
 {
 	char *string = NULL;
 	if (ft_strnstr(input + *i, "ln", 2))
@@ -62,7 +62,7 @@ void check_func(char *pointer, const char *input, int *i)
 
 /***** This function add integers in the deque *****/
 
-void	add_member(const char *input, int *i) {
+void	add_member(const char *input, int *i, Queue **list) {
 	int start_point = *i;
 	int end_point = 0;
 	char *string = NULL;
@@ -82,48 +82,36 @@ void	add_member(const char *input, int *i) {
 		(*i)--;
 }
 
-void	lexer(const char *input, char *output)
+Queue 	*lexer(const char *input, char *output, Queue *list)
 {
 	char *pointer = NULL;
 	pointer = output;
+	list = (Queue *)malloc(sizeof (Queue));
 	for (int i = 0; input[i]; i++)
 	{
 		if (is_num(input[i]))
 		{
-			add_member(input, &i);
+			add_member(input, &i, &list);
 		}
 		if (input[i] == 'c' || input[i] == 's' || input[i] == 't' || input[i] == 'c'
 		 || input[i] == 'a' || input[i] == 'l' || input[i] == 'm')
-			check_func(pointer, input, &i);
+			check_func(pointer, input, &i, &list);
 		if (input[i] == '+' || input[i] == '-' || input[i] == '*' || input[i]
-		== '/')
+		== '/' || input[i] == '^')
 		{
 			if (i == 0 && input[i] == '+')
 				continue ;
 			if (i == 0 && input[i] == '-') // Condition for the case like -123
 			{
-				add_member(input, &i);
+				add_member(input, &i, &list);
 				continue ;
 			}
-			add_member(input, &i);
+			add_member(input, &i, &list);
 		}
+		if (input[i] == '(' || input[i] == ')')
+			add_member(input, &i, &list);
 	}
+	return (list);
 }
 
 
-int main()
-{
-	list = NULL;
-	stack = NULL;
-	char output[255];
-	const char *input = "-37+ln-76";
-	list = (Queue *)malloc(sizeof (Queue));
-	lexer(input, output);
-	print_queue(&list);
-	while(list->size)
-	{
-		free(pop_queue(&list));
-		list->size--;
-	}
-	free(list);
-}

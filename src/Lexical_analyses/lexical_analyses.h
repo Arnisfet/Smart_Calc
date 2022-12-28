@@ -9,5 +9,6 @@
 #include "libft.h"
 
 
+Queue 	*lexer(const char *input, char *output, Queue *list);
 
 #endif //SMART_CALC_PARCER_H

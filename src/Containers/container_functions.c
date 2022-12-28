@@ -24,9 +24,9 @@ void	push(Stack **head, char *name)
 	*head = p;
 }
 
-char	pop(Stack **head)
+char	*pop(Stack **head)
 {
-	char value;
+	char *value;
 	Stack *tmp;
 	if (*head == NULL)
 		exit(EXIT_FAILURE);
@@ -46,7 +46,7 @@ void init(Queue **pointer)
 	(*pointer)->last = 0;
 }
 
-void insert_queue (Queue **pointer, char *name)
+void insert_queue (Queue ***pointer, char *name)
 {
 	Deque *tmp = NULL;
 	if (!(*pointer))
@@ -54,7 +54,7 @@ void insert_queue (Queue **pointer, char *name)
 		printf("Queue doesn't exist!");
 		exit(EXIT_FAILURE);
 	}
-	if ((*pointer)->last == 0 && (*pointer)->first == 0)
+	if ((**pointer)->last == 0 && (**pointer)->first == 0)
 	{
 		if((tmp = (Deque *) malloc(sizeof (Deque))) == NULL)
 		{
@@ -63,9 +63,9 @@ void insert_queue (Queue **pointer, char *name)
 		}
 		tmp->name = ft_strdup(name);
 		tmp->next = NULL;
-		(*pointer)->last = tmp;
-		(*pointer)->first = (*pointer)->last;
-		(*pointer)->size = 1;
+		(**pointer)->last = tmp;
+		(**pointer)->first = (**pointer)->last;
+		(**pointer)->size = 1;
 	}
 	else
 	{
@@ -76,9 +76,9 @@ void insert_queue (Queue **pointer, char *name)
 		}
 		tmp->name = ft_strdup(name);
 		tmp->next = NULL;
-		(*pointer)->last->next = tmp;
-		(*pointer)->last = tmp;
-		(*pointer)->size++;
+		(**pointer)->last->next = tmp;
+		(**pointer)->last = tmp;
+		(**pointer)->size++;
 	}
 }
 
@@ -109,7 +109,7 @@ void print_queue(Queue **pointer)
 	tmp = (*pointer)->first;
 	while(tmp)
 	{
-		printf("%s\n", tmp->name);
+		printf("%s %d - token\n", tmp->name, tmp->token);
 		tmp = tmp->next;
 	}
 }

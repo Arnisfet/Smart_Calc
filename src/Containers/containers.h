@@ -18,6 +18,11 @@ enum tokens {
 	TOKEN_MINUS,
 	TOKEN_FUNC,
 	TOKEN_MOD,
+	TOKEN_MULT,
+	TOKEN_DIVISION,
+	TOKEN_EXP,
+	OPEN_BR,
+	CLOSE_BR
 };
 
 typedef struct StructStack
@@ -30,6 +35,7 @@ typedef struct S_List
 {
 	char *name;
 	struct S_List *next;
+	enum tokens token;
 } Deque;
 
 typedef struct S_Queue
@@ -41,11 +47,9 @@ typedef struct S_Queue
 
 void	print_stack(Stack *head);
 void	push(Stack **head, char *name);
-char	pop(Stack **head);
+char	*pop(Stack **head);
 
 //Deque *list;
-Stack *stack;
-Queue *list;
 //Functions of the list structure
 
 char *pop_queue(Queue **pointer);
@@ -53,6 +57,6 @@ void	print_queue(Queue **pointer);
 
 
 void init(Queue **pointer);
-void insert_queue (Queue **pointer, char *name);
+void insert_queue (Queue ***pointer, char *name); // дааа..это я конечно молодец
 
 #endif //SMART_CALC_CONTAINERS_H

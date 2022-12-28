@@ -11,8 +11,8 @@ SRCSH = $(addprefix $(SHDIR), $(SHNAMES))
 SHOBJ = $(addprefix $(BDIR), $(SHNAMES:.c=.o))
 
 # Sources of the parser
-PRNAMES = parser.c
-PRDIR = src/Parser/
+PRNAMES = lexer.c parser.c
+PRDIR = src/Lexical_analyses/
 PRCSH = $(addprefix $(PRDIR), $(PRNAMES))
 PROBJ = $(addprefix $(BDIR), $(PRNAMES:.c=.o))
 
@@ -22,7 +22,7 @@ BDIR = ./bdir/
 # Includes
 SHINC = src/ShuntinYard/
 CTINC = src/Containers/
-PRINC = src/Parser/
+PRINC = src/Lexical_analyses/
 LIBINC = Libft/
 
 # Name
