@@ -4,6 +4,11 @@
 
 #include "lexical_analyses.h"
 
+/* Варианты ошибок:
+ * 	1. Две операции подряд
+ * 	2. Не известный токен
+ * 	3. Не корректное число
+ * 	4. Отсутствие оператора после попадания аргумента*/
 
 void tokenaiser(Queue **pointer)
 {
@@ -12,17 +17,17 @@ void tokenaiser(Queue **pointer)
 	while(tmp)
 	{
 		if (tmp->name[0] == '+')
-			tmp->token = TOKEN_PLUS;
+			tmp->token = OPERATION;
 		else if (tmp->name[0] == '*')
-			tmp->token = TOKEN_MULT;
+			tmp->token = OPERATION;
 		else if (tmp->name[0] == '-' && !is_num(tmp->name[1]))
-			tmp->token = TOKEN_MINUS;
+			tmp->token = OPERATION;
 		else if (tmp->name[0] == '/')
-			tmp->token = TOKEN_DIVISION;
+			tmp->token = OPERATION;
 		else if (tmp->name[0] == '^')
-			tmp->token = TOKEN_EXP;
+			tmp->token = OPERATION;
 		else if (tmp->name[0] == 'm')
-			tmp->token = TOKEN_MOD;
+			tmp->token = OPERATION;
 		else if (tmp->name[0] == 'c' || (tmp->name[0] == 's'
 		&& tmp->name[1] == 'i') || (tmp->name[0] == 's' && tmp->name[1] == 'q')
 		|| tmp->name[0] == 't' || (tmp->name[0] == 'a' && tmp->name[1] == 'q')
@@ -30,35 +35,68 @@ void tokenaiser(Queue **pointer)
 		|| (tmp->name[0] == 'a' && tmp->name[1] == 't')
 		|| (tmp->name[0] == 'l' && tmp->name[1] == 'n')
 		|| (tmp->name[0] == 'l' && tmp->name[1] == 'o'))
-			tmp->token = TOKEN_FUNC;
+			tmp->token = FUNCTION;
 		else if (tmp->name[0] == '(')
-			tmp->token = OPEN_BR;
+			tmp->token = BRACKET;
 		else if (tmp->name[0] == ')')
-			tmp->token = CLOSE_BR;
+			tmp->token = BRACKET;
 		else
-			tmp->token = TOKEN_NUMBER;
+			tmp->token = NUMBER;
 		tmp = tmp->next;
 	}
 }
 
-void parser(Queue **pointer)
+void	check_operations(Queue **pointer)
 {
+	Deque *tmp = NULL;
+	int bracket = 0;
 
-}
-
-int main()
-{
-	Queue *list;
-	list = NULL;
-	char output[255];
-	char *input = "-23+sin(1)-(37)+ln-76/78*63^3";
-	list = lexer(input, output, list);
-	tokenaiser(&list);
-	print_queue(&list);
-	while(list->size)
+	tmp = (*pointer)->first;
+	while (tmp)
 	{
-		free(pop_queue(&list));
-		list->size--;
+		if (tmp->token == BRACKET) // Условие для скобок
+		{
+			if (tmp->next && tmp->next->token == BRACKET)
+				error = 7;
+			bracket++;
+		} // Остальные условия
+		if (tmp->token == NUMBER && tmp->next && tmp->next->token == NUMBER)
+			error = 2;
+		else if (tmp->token == OPERATION && tmp->next && tmp->next->token ==
+		OPERATION)
+			error = 3;
+		else if (tmp->token == FUNCTION && tmp->next && tmp->next->token ==
+		FUNCTION)
+			error = 4;
+		tmp = tmp->next;
 	}
-	free(list);
+	if (bracket % 2 != 0)
+		error = 6;
+
 }
+
+void	parser(Queue **pointer)
+{
+	check_operations(pointer);
+	if (error == 2)
+	{
+		printf("Некорректное выражение: Два числа подряд.\n");
+	}
+	if (error == 3)
+	{
+		printf("Некорректное выражение: Два оператора подряд.\n");
+	}
+	if (error == 4)
+	{
+		printf("Некорректное выражение: Две функции подряд.\n");
+	}
+	if (error == 6)
+	{
+		printf("Некорректное выражение: Нечетное количество скобок\n");
+	}
+	if (error == 7)
+	{
+		printf("Некорректное выражение: Нулевой аргумент функции\n");
+	}
+}
+

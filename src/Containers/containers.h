@@ -25,6 +25,13 @@ enum tokens {
 	CLOSE_BR
 };
 
+enum pars_tokens{
+	NUMBER = 1,
+	OPERATION,
+	FUNCTION,
+	BRACKET
+};
+
 typedef struct StructStack
 {
 	char *name;
@@ -35,7 +42,7 @@ typedef struct S_List
 {
 	char *name;
 	struct S_List *next;
-	enum tokens token;
+	enum pars_tokens token;
 } Deque;
 
 typedef struct S_Queue

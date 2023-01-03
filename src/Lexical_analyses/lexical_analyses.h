@@ -8,7 +8,10 @@
 #include "containers.h"
 #include "libft.h"
 
+int error;
 
-Queue 	*lexer(const char *input, char *output, Queue *list);
+Queue 	*lexer(const char *input, Queue *list);
+void	parser(Queue **pointer);
+void tokenaiser(Queue **pointer);
 
 #endif //SMART_CALC_PARCER_H

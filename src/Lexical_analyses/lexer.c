@@ -60,17 +60,27 @@ void check_func(char *pointer, const char *input, int *i, Queue **list)
 	free(string);
 }
 
-/***** This function add integers in the deque *****/
+/***** This function add integers in the queue *****/
 
 void	add_member(const char *input, int *i, Queue **list) {
 	int start_point = *i;
 	int end_point = 0;
+	int precision = 0;
 	char *string = NULL;
 
 	if (*i == 0 && input[*i] == '-') // Condition for the case like -123
 		(*i)++;
-	while (is_num(input[*i]))
+	while (is_num(input[*i])) // If number
 		(*i)++;
+	if (input[*i] == '.') // If found the dub
+		(*i)++;
+	while (is_num(input[*i])) // Condition for the float precision
+		(*i)++, precision++;
+	if (precision > 12)
+	{
+		error = 5;
+		printf("Некорректное выражение: Превышена точность типа float.\n");
+	}
 	end_point = *i;
 	if (end_point - start_point == 1 || end_point - start_point == 0)
 		string = ft_substr(input, start_point, 1);
@@ -82,10 +92,9 @@ void	add_member(const char *input, int *i, Queue **list) {
 		(*i)--;
 }
 
-Queue 	*lexer(const char *input, char *output, Queue *list)
+Queue 	*lexer(const char *input, Queue *list)
 {
 	char *pointer = NULL;
-	pointer = output;
 	list = (Queue *)malloc(sizeof (Queue));
 	for (int i = 0; input[i]; i++)
 	{
@@ -99,7 +108,7 @@ Queue 	*lexer(const char *input, char *output, Queue *list)
 		if (input[i] == '+' || input[i] == '-' || input[i] == '*' || input[i]
 		== '/' || input[i] == '^')
 		{
-			if (i == 0 && input[i] == '+')
+			if (i == 0 && input[i] == '+' && input[i+1] != '-')
 				continue ;
 			if (i == 0 && input[i] == '-') // Condition for the case like -123
 			{
