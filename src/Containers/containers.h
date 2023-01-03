@@ -35,6 +35,8 @@ enum pars_tokens{
 typedef struct StructStack
 {
 	char *name;
+	enum pars_tokens token;
+	int priority;
 	struct StructStack *next;
 } Stack;
 
@@ -43,6 +45,7 @@ typedef struct S_List
 	char *name;
 	struct S_List *next;
 	enum pars_tokens token;
+	int priority;
 } Deque;
 
 typedef struct S_Queue
@@ -64,6 +67,7 @@ void	print_queue(Queue **pointer);
 
 
 void init(Queue **pointer);
-void insert_queue (Queue ***pointer, char *name); // дааа..это я конечно молодец
+void insert_queue (Queue ***pointer, char *name);
+void insert_queue_2 (Queue **pointer, char *name);// дааа..это я конечно молодец
 
 #endif //SMART_CALC_CONTAINERS_H
