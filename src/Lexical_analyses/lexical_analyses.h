@@ -13,6 +13,5 @@ int error;
 Queue 	*lexer(const char *input, Queue *list);
 void	parser(Queue **pointer);
 void tokenaiser(Queue **pointer);
-void tokenaiser_to_yard(Queue **pointer);
 
 #endif //SMART_CALC_PARCER_H

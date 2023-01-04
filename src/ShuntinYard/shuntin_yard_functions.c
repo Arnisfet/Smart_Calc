@@ -4,8 +4,11 @@
 
 #include "lexical_analyses.h"
 #include "containers.h"
+#include <math.h>
 
-void	shutin_yard(Queue **list)
+
+
+Queue	*shutin_yard(Queue **list)
 {
 	Queue *output = NULL; // Output deque
 	Stack *stack = NULL;
@@ -51,7 +54,7 @@ void	shutin_yard(Queue **list)
 			}
 			buffer = pop(&stack);
 			free(buffer);
-			if (stack->token == FUNCTION)
+			if (stack && stack->token == FUNCTION)
 			{
 				buffer = pop(&stack);
 				insert_queue_2(&output, buffer);
@@ -66,30 +69,93 @@ void	shutin_yard(Queue **list)
 		insert_queue_2(&output, buffer);
 		free(buffer);
 	}
-	printf("Second очередь\n"
-		   "******************************************\n");
-	print_queue(&output);
-
-//	printf("STACK\n"
-//		   "******************************************\n");
-//	print_stack(stack);
+	return (output);
 }
 
+void	calculating(Queue *list)
+{
+	Deque *tmp = NULL;
+	FStack *fstack = NULL;
+	float first = 0, second = 0;
+
+	tmp = list->first;
+	while (tmp)
+	{
+		if (tmp->token == NUMBER)
+			fpush(&fstack, ft_atof(tmp->name));
+		else if (tmp->token == OPERATION || tmp->token == FUNCTION)
+		{
+			if (tmp->token == OPERATION)
+			{
+				if (tmp->name[0] == '+')
+					fpush(&fstack, fpop(&fstack)+fpop(&fstack));
+				else if (tmp->name[0] == '-')
+					fpush(&fstack, -(fpop(&fstack)-fpop(&fstack)));
+				else if (tmp->name[0] == '*')
+					fpush(&fstack, fpop(&fstack)*fpop(&fstack));
+				else if (tmp->name[0] == '/')
+				{
+					second = fpop(&fstack);
+					first = fpop(&fstack);
+					fpush(&fstack, first/second);
+				}
+				else if (tmp->name[0] == '^')
+					fpush(&fstack, powf(fpop(&fstack),fpop(&fstack)));
+				else if (ft_strncmp(tmp->name, "mod", 10) == 0)
+				{
+					second = fpop(&fstack);
+					first = fpop(&fstack);
+					fpush(&fstack, fmodf(first, second));
+				}
+			}
+			else
+			{
+				if (ft_strncmp(tmp->name, "sin",10) == 0)
+					fpush(&fstack, sinf(fpop(&fstack)));
+				else if (ft_strncmp(tmp->name, "cos",10) == 0)
+					fpush(&fstack, cosf(fpop(&fstack)));
+				else if (ft_strncmp(tmp->name, "tan",10) == 0)
+					fpush(&fstack, tanf(fpop(&fstack)));
+				else if (ft_strncmp(tmp->name, "asin",10) == 0)
+					fpush(&fstack, asinf(fpop(&fstack)));
+				else if (ft_strncmp(tmp->name, "acos",10) == 0)
+					fpush(&fstack, acosf(fpop(&fstack)));
+				else if (ft_strncmp(tmp->name, "atan",10) == 0)
+					fpush(&fstack, atanf(fpop(&fstack)));
+				else if (ft_strncmp(tmp->name, "log",10) == 0)
+					fpush(&fstack, log10f(fpop(&fstack)));
+				else if (ft_strncmp(tmp->name, "ln",10) == 0)
+					fpush(&fstack, logf(fpop(&fstack)));
+				else if (ft_strncmp(tmp->name, "sqrt",10) == 0)
+					fpush(&fstack, sqrtf(fpop(&fstack)));
+			}
+		}
+		tmp = tmp->next;
+	}
+	printf("\nResult:\n");
+	fprint_stack(fstack);
+}
 
 int main()
 {
-	Queue *list;
-	list = NULL;
+	Queue *list = NULL, *output = NULL;
 	error = 0;
-	char *input = "87*37+3^2*sin(1+7+8)";
+	char *input = "6.2 mod 2.3";
 	list = lexer(input, list);
 	tokenaiser(&list);
 	parser(&list);
 	printf("Первонаяальная очередь\n"
-		   "******************************************");
+		   "******************************************\n");
 	print_queue(&list);
 	if (error == 0)
-		shutin_yard(&list);
+	{
+		output = shutin_yard(&list);
+		tokenaiser(&output);
+		printf("\nSecond очередь\n"
+			   "******************************************\n");
+		print_queue(&output);
+		calculating(output);
+	}
 	while(list->size)
 	{
 		free(pop_queue(&list));

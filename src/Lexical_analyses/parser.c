@@ -56,7 +56,7 @@ void	check_operations(Queue **pointer)
 	{
 		if (tmp->token == BRACKET) // Условие для четности скобок
 		{
-			if (tmp->next && tmp->next->token == BRACKET)
+			if (tmp->next && tmp->name[0] == '(' && tmp->next->name[0] == ')')
 				error = 7;
 			bracket++;
 		} // Остальные условия
@@ -72,6 +72,9 @@ void	check_operations(Queue **pointer)
 			error = 9;
 		else if (tmp->token == OPERATION && !tmp->next)
 			error = 10;
+		else if (tmp->token == OPERATION && tmp->next && (tmp->next->token !=
+		NUMBER && tmp->next->token != FUNCTION && tmp->next->token != BRACKET))
+			error = 11;
 		tmp = tmp->next;
 	}
 	if (bracket % 2 != 0)
@@ -106,5 +109,8 @@ void	parser(Queue **pointer) {
 		printf("Некорректное выражение: Оператор единстенный элемент или не "
 			   "законченное выражение"
 			   "\n");
+	}
+	if (error == 11) {
+		printf("Некорректное выражение: Оператор без аргумента\n");
 	}
 }

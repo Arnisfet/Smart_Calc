@@ -1,5 +1,5 @@
 # Containers Sources
-CTNAMES = container_functions.c
+CTNAMES = stack.c queue.c
 CTDIR = src/Containers/
 CTCST = $(addprefix $(CTDIR), $(SRCNAMES))
 CTOBJ = $(addprefix $(BDIR), $(CTNAMES:.c=.o))
@@ -35,7 +35,7 @@ LIBFT	=  ./Libft/libft.a
 all: $(BDIR) $(NAME)
 
 $(NAME): $(LIBFT) $(SHOBJ) $(CTOBJ) $(PROBJ)
-	gcc -o $(NAME) $(SHOBJ) $(CTOBJ) $(PROBJ) $(LIBFT) -std=c11 -g
+	gcc -o $(NAME) $(SHOBJ) $(CTOBJ) $(PROBJ) $(LIBFT) -lm -std=c11 -g
 
 $(LIBFT):
 	make -C ./Libft

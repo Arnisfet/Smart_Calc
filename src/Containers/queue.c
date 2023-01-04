@@ -1,44 +1,7 @@
-//
-// Created by arnisfet on 17.12.22.
-//
 #include "containers.h"
 
-void	print_stack(Stack *head)
-{
-	if (!head)
-		exit(EXIT_FAILURE);
-	while(head)
-	{
-		printf("%s\n", head->name);
-		head = head->next;
-	}
-}
 
-void	push(Stack **head, char *name)
-{
-	Stack *p = NULL;
-	if ((p = (Stack*)malloc(sizeof(Stack))) == NULL)
-		exit (EXIT_FAILURE);
-	p->next = *head;
-	p->name = ft_strdup(name);
-	*head = p;
-}
-
-char	*pop(Stack **head)
-{
-	char *value;
-	Stack *tmp;
-	if (*head == NULL)
-		exit(EXIT_FAILURE);
-	value = ft_strdup((*head)->name);
-	tmp = *head;
-	*head = (*head)->next;
-	free(tmp->name);
-	free(tmp);
-	return (value);
-}
-
-
+/********************* Queue *************************/
 
 void init(Queue **pointer)
 {
@@ -153,7 +116,7 @@ void print_queue(Queue **pointer)
 	tmp = (*pointer)->first;
 	while(tmp)
 	{
-		printf("%s %d - token\n", tmp->name, tmp->token);
+		printf("%s ", tmp->name);
 		tmp = tmp->next;
 	}
 }
