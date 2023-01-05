@@ -6,7 +6,7 @@
 #include "containers.h"
 #include <math.h>
 
-
+/************ Алгоритм Сортировочной станции ************/
 
 Queue	*shutin_yard(Queue **list)
 {
@@ -72,11 +72,13 @@ Queue	*shutin_yard(Queue **list)
 	return (output);
 }
 
-void	calculating(Queue *list)
+/********** Расчет полученных параметров **************/
+
+float	calculating(Queue *list)
 {
 	Deque *tmp = NULL;
 	FStack *fstack = NULL;
-	float first = 0, second = 0;
+	float first = 0, second = 0, result = 0;
 
 	tmp = list->first;
 	while (tmp)
@@ -132,34 +134,52 @@ void	calculating(Queue *list)
 		}
 		tmp = tmp->next;
 	}
-	printf("\nResult:\n");
-	fprint_stack(fstack);
+	result = fpop(&fstack);
+	return (result);
 }
 
-int main()
+/**************** Тело алгоритма *************/
+
+float  result(char *input)
 {
 	Queue *list = NULL, *output = NULL;
+	float result = 0;
 	error = 0;
-	char *input = "6.2 mod 2.3";
-	list = lexer(input, list);
-	tokenaiser(&list);
-	parser(&list);
-	printf("Первонаяальная очередь\n"
-		   "******************************************\n");
-	print_queue(&list);
+
+	list = lexer(input, list); // Бьем на лексемы
+	tokenaiser(&list); // Токенизация лексем
+	parser(&list); // Парсинг параметро на ошибки
+//	printf("Первонаяальная очередь\n"
+//		   "******************************************\n");
+//	print_queue(&list);
 	if (error == 0)
 	{
 		output = shutin_yard(&list);
 		tokenaiser(&output);
-		printf("\nSecond очередь\n"
-			   "******************************************\n");
-		print_queue(&output);
-		calculating(output);
+//		printf("\nSecond очередь\n"
+//			   "******************************************\n");
+//		print_queue(&output);
+		result = calculating(output);
+		while(output->size) // Очистка выходной очереди
+		{
+			free(pop_queue(&output));
+			output->size--;
+		}
+		free(output);
 	}
-	while(list->size)
+	while(list->size) // Очистка изначальной очереди
 	{
 		free(pop_queue(&list));
 		list->size--;
 	}
 	free(list);
+	return (result);
 }
+
+//int main()
+//{
+//	char *input = "23.678+23.-ln(log(10))-200+sin(cos(tan(10)))+10 mod 43/27";
+//	float i = result(input);
+//	printf("\nResult: %f\n", i);
+//
+//}

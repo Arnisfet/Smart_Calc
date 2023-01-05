@@ -23,19 +23,19 @@ BDIR = ./bdir/
 SHINC = src/ShuntinYard/
 CTINC = src/Containers/
 PRINC = src/Lexical_analyses/
-LIBINC = Libft/
+LIBINC = ../Libft/
 
 # Name
-NAME = SORTST
+NAME =	libshuntin.so
 
 # LIBFT
-LIBFT	=  ./Libft/libft.a
+LIBFT	=  ../Libft/libft.a
 
 
 all: $(BDIR) $(NAME)
 
 $(NAME): $(LIBFT) $(SHOBJ) $(CTOBJ) $(PROBJ)
-	gcc -o $(NAME) $(SHOBJ) $(CTOBJ) $(PROBJ) $(LIBFT) -lm -std=c11 -g
+	gcc -shared -o  $(NAME) $(SHOBJ) $(CTOBJ) $(PROBJ) $(LIBFT) -lm -std=c11 -g
 
 $(LIBFT):
 	make -C ./Libft
@@ -44,13 +44,13 @@ $(BDIR) :
 	mkdir -p $(BDIR)
 
 $(BDIR)%.o:$(SHDIR)%.c
-	gcc -I$(SHINC) -I$(CTINC) -I$(LIBINC) -I$(PRINC) -g -o $@ -c  $<
+	gcc -I$(SHINC) -I$(CTINC) -I$(LIBINC) -I$(PRINC) -fPIC -g -o $@ -c  $<
 
 $(BDIR)%.o:$(CTDIR)%.c
-	gcc -I$(CTINC) -I$(SHINC) -I$(LIBINC) -I$(PRINC) -g -o $@ -c  $<
+	gcc -I$(CTINC) -I$(SHINC) -I$(LIBINC) -I$(PRINC) -fPIC -g -o $@ -c  $<
 
 $(BDIR)%.o:$(PRDIR)%.c
-	gcc -I$(CTINC) -I$(SHINC) -I$(LIBINC) -I$(PRINC) -g -o $@ -c  $<
+	gcc -I$(CTINC) -I$(SHINC) -I$(LIBINC) -I$(PRINC) -fPIC -g -o $@ -c  $<
 
 clean:
 	rm -rf $(SHOBJ) $(CTOBJ) $(PROBJ)
