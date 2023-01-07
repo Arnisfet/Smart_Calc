@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'mainwindow.ui'
-#
-# Created by: PyQt5 UI code generator 5.9.2
-#
-# WARNING! All changes made in this file will be lost!
+import calc
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -153,6 +147,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.add_functions()
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "SmartCalc"))
@@ -190,13 +186,42 @@ class Ui_MainWindow(object):
         self.e.setText(_translate("MainWindow", "e"))
         self.menuSmartCalc.setTitle(_translate("MainWindow", "SmartCalc"))
 
+    def add_functions(self):
+        # Метод по обработке нахажатия клавиш калькулятора
+     self.button1.clicked.connect(lambda: self.write_number(self.button1.text()))
+     self.button2.clicked.connect(lambda: self.write_number(self.button2.text()))
+     self.button3.clicked.connect(lambda: self.write_number(self.button3.text()))
+     self.button4.clicked.connect(lambda: self.write_number(self.button4.text()))
+     self.button5.clicked.connect(lambda: self.write_number(self.button5.text()))
+     self.button6.clicked.connect(lambda: self.write_number(self.button6.text()))
+     self.button7.clicked.connect(lambda: self.write_number(self.button7.text()))
+     self.button8.clicked.connect(lambda: self.write_number(self.button8.text()))
+     self.button9.clicked.connect(lambda: self.write_number(self.button9.text()))
+     self.zero.clicked.connect(lambda: self.write_number(self.zero.text()))
+     self.dub.clicked.connect(lambda: self.write_number(self.dub.text()))
+     self.plus.clicked.connect(lambda: self.write_number(self.plus.text()))
+     self.minus.clicked.connect(lambda: self.write_number(self.minus.text()))
+     self.divivsion.clicked.connect(lambda: self.write_number(self.divivsion.text()))
+     self.miltiply.clicked.connect(lambda: self.write_number(self.miltiply.text()))
+     self.square.clicked.connect(lambda: self.write_number(self.square.text()))
+     self.leftBR.clicked.connect(lambda: self.write_number(self.leftBR.text()))
+     self.rightBR.clicked.connect(lambda: self.write_number(self.rightBR.text()))
+     self.ln.clicked.connect(lambda: self.write_number(self.ln.text()))
+     self.log.clicked.connect(lambda: self.write_number(self.log.text()))
+     self.sqrt.clicked.connect(lambda: self.write_number(self.sqrt.text()))
+     self.sin.clicked.connect(lambda: self.write_number(self.sin.text()))
+     self.tg.clicked.connect(lambda: self.write_number(self.tg.text()))
+     self.mod.clicked.connect(lambda: self.write_number(self.mod.text()))
+     self.cos.clicked.connect(lambda: self.write_number(self.cos.text()))
+     self.atg.clicked.connect(lambda: self.write_number(self.atg.text()))
+     self.acos.clicked.connect(lambda: self.write_number(self.acos.text()))
+     self.asin.clicked.connect(lambda: self.write_number(self.asin.text()))
+     self.e.clicked.connect(lambda: self.write_number(self.e.text()))
+     self.drop.clicked.connect(lambda: self.label.setText(""))
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
-
+    def write_number(self, number):
+        # Метод по помещению строки в поле ввода
+        if self.label.text() == "0":
+            self.label.setText(number)
+        else:
+            self.label.setText(self.label.text()+number)
