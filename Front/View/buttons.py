@@ -1,4 +1,4 @@
-import calc
+# import calc
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -187,7 +187,6 @@ class Ui_MainWindow(object):
         self.menuSmartCalc.setTitle(_translate("MainWindow", "SmartCalc"))
 
     def add_functions(self):
-        # Метод по обработке нахажатия клавиш калькулятора
      self.button1.clicked.connect(lambda: self.write_number(self.button1.text()))
      self.button2.clicked.connect(lambda: self.write_number(self.button2.text()))
      self.button3.clicked.connect(lambda: self.write_number(self.button3.text()))
@@ -223,5 +222,7 @@ class Ui_MainWindow(object):
         # Метод по помещению строки в поле ввода
         if self.label.text() == "0":
             self.label.setText(number)
+        elif number.isdigit() or number == '.':
+            self.label.setText(self.label.text() + number)
         else:
-            self.label.setText(self.label.text()+number)
+            self.label.setText(self.label.text()+' '+number+' ')
