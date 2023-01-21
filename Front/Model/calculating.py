@@ -8,7 +8,7 @@ class Tokens:
 
     def lexer(self):
         tokens = self.string.split()
-        print(tokens)
+        print(type(tokens))
 
 
 

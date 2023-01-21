@@ -7,16 +7,16 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtWidgets
-from Front.View import buttons
+
+from Front.ViewModel.viewmodel import ViewModel
+from Front.View.buttons import App
+
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = buttons.Ui_MainWindow()
-    ui.setupUi(MainWindow)
-
-
-    MainWindow.show()
-    sys.exit(app.exec_())
-
+    View = App()
+    VM = ViewModel()
+    View.attach(VM)
+    app.exec_()
