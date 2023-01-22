@@ -8,7 +8,7 @@
 
 from PyQt5 import QtWidgets
 
-from Front.ViewModel.viewmodel import ViewModel
+# from Front.Controller.viewmodel import ViewModel
 from Front.View.buttons import App
 
 
@@ -17,6 +17,4 @@ if __name__ == "__main__":
 
     app = QtWidgets.QApplication(sys.argv)
     View = App()
-    VM = ViewModel()
-    View.attach(VM)
     app.exec_()

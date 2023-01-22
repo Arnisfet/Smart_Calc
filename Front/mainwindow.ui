@@ -28,7 +28,7 @@ color: rgb(243, 243, 243);</string>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
@@ -87,7 +87,7 @@ hr { height: 1px; border-width: 0; }
        <string>acos</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="sin_2">
+     <widget class="QPushButton" name="X_sign">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -306,7 +306,7 @@ color: rgb(120, 174, 213);</string>
        <string>asin</string>
       </property>
      </widget>
-     <widget class="QPlainTextEdit" name="plainTextEdit">
+     <widget class="QPlainTextEdit" name="X_Value">
       <property name="geometry">
        <rect>
         <x>10</x>

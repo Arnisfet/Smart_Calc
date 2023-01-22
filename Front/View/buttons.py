@@ -1,85 +1,15 @@
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5 import uic
+from Front.Controller.controller import Controller
 
 
 class App(QWidget):
     def __init__(self):
+        self.ui = None
         self.start()
-        self._dub_flag = 0
-        self._exp_flag = 0
-        self._observers = set()
-        self.add_functions()
+        self.controller = Controller(self.ui)
 
-    def attach(self, observer):
-        self. _observers.add(observer)
-
-    def detach(self, observer):
-        self._observers.remove(observer)
-
-    def notify(self, str_input):
-        for observer in self._observers:
-            observer.start_calc(str_input)
 
     def start(self):
         self.ui = uic.loadUi("mainwindow.ui")
         self.ui.show()
-
-    def add_functions(self):
-        self.ui.button1.clicked.connect(lambda: self.write_number(self.ui.button1.text()))
-        self.ui.button2.clicked.connect(lambda: self.write_number(self.ui.button2.text()))
-        self.ui.button3.clicked.connect(lambda: self.write_number(self.ui.button3.text()))
-        self.ui.button4.clicked.connect(lambda: self.write_number(self.ui.button4.text()))
-        self.ui.button5.clicked.connect(lambda: self.write_number(self.ui.button5.text()))
-        self.ui.button6.clicked.connect(lambda: self.write_number(self.ui.button6.text()))
-        self.ui.button7.clicked.connect(lambda: self.write_number(self.ui.button7.text()))
-        self.ui.button8.clicked.connect(lambda: self.write_number(self.ui.button8.text()))
-        self.ui.button9.clicked.connect(lambda: self.write_number(self.ui.button9.text()))
-        self.ui.zero.clicked.connect(lambda: self.write_number(self.ui.zero.text()))
-        self.ui.dub.clicked.connect(lambda: self.write_number(self.ui.dub.text()))
-        self.ui.plus.clicked.connect(lambda: self.write_number(self.ui.plus.text()))
-        self.ui.minus.clicked.connect(lambda: self.write_number(self.ui.minus.text()))
-        self.ui.divivsion.clicked.connect(lambda: self.write_number(self.ui.divivsion.text()))
-        self.ui.miltiply.clicked.connect(lambda: self.write_number(self.ui.miltiply.text()))
-        self.ui.square.clicked.connect(lambda: self.write_number(self.ui.square.text()))
-        self.ui.leftBR.clicked.connect(lambda: self.write_number(self.ui.leftBR.text()))
-        self.ui.rightBR.clicked.connect(lambda: self.write_number(self.ui.rightBR.text()))
-        self.ui.ln.clicked.connect(lambda: self.write_number(self.ui.ln.text()))
-        self.ui.log.clicked.connect(lambda: self.write_number(self.ui.log.text()))
-        self.ui.sqrt.clicked.connect(lambda: self.write_number(self.ui.sqrt.text()))
-        self.ui.sin.clicked.connect(lambda: self.write_number(self.ui.sin.text()))
-        self.ui.tg.clicked.connect(lambda: self.write_number(self.ui.tg.text()))
-        self.ui.mod.clicked.connect(lambda: self.write_number(self.ui.mod.text()))
-        self.ui.cos.clicked.connect(lambda: self.write_number(self.ui.cos.text()))
-        self.ui.atg.clicked.connect(lambda: self.write_number(self.ui.atg.text()))
-        self.ui.acos.clicked.connect(lambda: self.write_number(self.ui.acos.text()))
-        self.ui.asin.clicked.connect(lambda: self.write_number(self.ui.asin.text()))
-        self.ui.e.clicked.connect(lambda: self.write_number(self.ui.e.text()))
-        self.ui.drop.clicked.connect(lambda: self.ui.label.setText(""))
-        self.ui.result.clicked.connect(lambda: self.calculate())
-
-    def calculate(self):
-        self.notify(self.ui.label.text())
-
-    def write_number(self, number):
-        # Метод по помещению строки в поле ввода
-        if self.ui.label.text() == "0":
-            self.ui.label.setText(number)
-        elif number.isdigit():
-            self.ui.label.setText(self.ui.label.text() + number)
-
-        elif number == '.' and self._dub_flag == 0:
-            self.ui.label.setText(self.ui.label.text() + number)
-            self._dub_flag = 1
-        elif number == 'e' and self._exp_flag == 0:
-            self.ui.label.setText(self.ui.label.text() + number)
-            self._exp_flag = 1
-        elif (number == '.' and self._dub_flag == 1) or (number == 'e' and self._exp_flag == 1):
-            return
-        else:
-            if self._exp_flag == 1 and (number == '-' or number == '+'):
-                self.ui.label.setText(self.ui.label.text() + number)
-                self._exp_flag = 0
-            else:
-                self.ui.label.setText(self.ui.label.text() + ' ' + number + ' ')
-                self._dub_flag = 0
-                self._exp_flag = 0
