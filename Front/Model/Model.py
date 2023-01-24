@@ -1,4 +1,5 @@
 import enum
+from math import *
 
 
 class Enumerate(enum.Enum):
@@ -40,6 +41,7 @@ class CalcModel:
         self.input_string = string
         self._lexems = list()
         self._polish = list()
+        self.result = list()
 
     # def postfix(self):
 
@@ -60,7 +62,7 @@ class CalcModel:
             elif token == '(' or token == ')':
                 lexema.add_value(token, Enumerate.BRACKET)
                 self._lexems.append(lexema)
-            elif token == '+' or token == '-' or token == '^' or token == '/' or token == '^' or token == 'm':
+            elif token == '+' or token == '-' or token == '^' or token == '/' or token == '^' or token == 'mod' or token == '*':
                 lexema.add_value(token, Enumerate.OPERATION)
                 self._lexems.append(lexema)
             else:
@@ -92,30 +94,76 @@ class CalcModel:
             elif lexem.getToken() == Enumerate.FUNCTION:
                 Stack.append(lexem)
             elif lexem.getToken() == Enumerate.OPERATION:
-                while ((all(Stack) and (Stack[-1]).getPriority()) >= lexem.getPriority()):
+                while Stack and (Stack[len(Stack) - 1]).getPriority() >= lexem.getPriority():
                     buffer = Stack.pop()
                     self._polish.append(buffer)
                 Stack.append(lexem)
             elif lexem.getValue() == '(':
                 Stack.append(lexem)
             elif lexem.getValue() == ')':
-                while ((Stack[-1]).getValue() != '('):
+                while Stack and (Stack[len(Stack) - 1]).getValue() != '(':
                     buffer = Stack.pop()
                     self._polish.append(buffer)
                 Stack.pop()
-                if ((Stack[-1]).getToken() == Enumerate.FUNCTION):
+                if Stack and (Stack[len(Stack) - 1]).getToken() == Enumerate.FUNCTION:
                     buffer = Stack.pop()
                     self._polish.append(buffer)
-        for stack in Stack:
-            self._polish.append(stack.pop())
+        while Stack:
+            self._polish.append(Stack.pop())
+        for check in self._polish:
+            print(check.getValue())
 
-
+    def calc_polish(self):
+        for value in self._polish:
+            if value.getToken() == Enumerate.NUMBER:
+                self.result.append(float(value.getValue()))
+            elif value.getToken() == Enumerate.OPERATION or value.getToken() == Enumerate.FUNCTION:
+                if value.getToken() == Enumerate.OPERATION:
+                    if value.getValue() == '+':
+                        self.result.append(self.result.pop() + self.result.pop())
+                    elif value.getValue() == '-':
+                        self.result.append(-(self.result.pop() - self.result.pop()))
+                    elif value.getValue() == '*':
+                        self.result.append(self.result.pop()*self.result.pop())
+                    elif value.getValue() == '/':
+                        first = self.result.pop()
+                        second = self.result.pop()
+                        self.result.append(second / first)
+                    elif value.getValue() == '^':
+                        first = self.result.pop()
+                        second = self.result.pop()
+                        self.result.append(second ** first)
+                    elif value.getValue() == 'mod':
+                        first = self.result.pop()
+                        second = self.result.pop()
+                        self.result.append(second % first)
+                else:
+                    if value.getValue() == 'sin':
+                        self.result.append(sin(self.result.pop()))
+                    elif value.getValue() == 'cos':
+                        self.result.append(cos(self.result.pop()))
+                    elif value.getValue() == 'tan':
+                        self.result.append(tan(self.result.pop()))
+                    elif value.getValue() == 'asin':
+                        self.result.append(asin(self.result.pop()))
+                    elif value.getValue() == 'acos':
+                        self.result.append(acos(self.result.pop()))
+                    elif value.getValue() == 'atan':
+                        self.result.append(atan(self.result.pop()))
+                    elif value.getValue() == 'log':
+                        self.result.append(log10(self.result.pop()))
+                    elif value.getValue() == 'ln':
+                        self.result.append(log(self.result.pop()))
+                    elif value.getValue() == 'sqrt':
+                        self.result.append(sqrt(self.result.pop()))
+        print(self.result)
 
 def base():
-    Input_str = CalcModel('134.567e+10 + ( 2 + 3 ) + sin ( 1  ) + 25')
+    Input_str = CalcModel('49 - 8 - 50 - 800 + log ( 12 ) - tan ( 99 ) + cos ( sin ( 8 ) )')
     Input_str.lexer()
     Input_str.priority()
     Input_str.shuntin_yard()
+    Input_str.calc_polish()
 
 
 base()
