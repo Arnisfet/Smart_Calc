@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5 import uic
-from Front.Controller.controller import Controller
+from Front.Presenter.presenter import Controller
 
 
 class App(QWidget):

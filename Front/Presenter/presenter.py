@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5 import uic
+
+from ..Model.Model import *
 
 
 class Controller:
@@ -44,9 +44,16 @@ class Controller:
         self.ui.result.clicked.connect(lambda: self.calculate())
 
     def calculate(self):
-        # self.notify(self.ui.label.text())
-        pass
-
+        text = self.ui.XText.toPlainText()
+        if text.isdigit():
+            Model = CalcModel(self.ui.label.text(), text)
+        else:
+            Model = CalcModel(self.ui.label.text())
+        Model.lexer()
+        Model.priority()
+        Model.shuntin_yard()
+        Model.calc_polish()
+        self.ui.label.setText(Model.getValue())
     def write_number(self, number):
         # Метод по помещению строки в поле ввода
         if self.ui.label.text() == "0":

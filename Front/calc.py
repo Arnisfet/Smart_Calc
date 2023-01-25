@@ -8,7 +8,7 @@
 
 from PyQt5 import QtWidgets
 
-# from Front.Controller.viewmodel import ViewModel
+# from Front.Presenter.viewmodel import ViewModel
 from Front.View.buttons import App
 
 

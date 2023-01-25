@@ -37,19 +37,23 @@ class Lexems:
 
 
 class CalcModel:
-    def __init__(self, string):
+    def __init__(self, string, xvalue=''):
         self.input_string = string
+        self.xvalue = xvalue
         self._lexems = list()
         self._polish = list()
         self.result = list()
 
-    # def postfix(self):
+    def getValue(self):
+        return str(self.result.pop())
 
     def lexer(self):
         """ Функция делит полученную строку на лексемы, данные разбиваются, и кладутся в список классов Лексем"""
         self.tokens = self.input_string.split()
         for token in self.tokens:
             lexema = Lexems()
+            if token == 'X':
+                token = self.xvalue
             if token == 'acos' or token == 'asin' or token == 'atan' or token == 'cos' or token == 'sin' \
                     or token == 'tan' or token == 'ln' or token == 'log' or token == 'sqrt':
                 lexema.add_value(token, Enumerate.FUNCTION)
@@ -158,12 +162,13 @@ class CalcModel:
                         self.result.append(sqrt(self.result.pop()))
         print(self.result)
 
-def base():
-    Input_str = CalcModel('49 - 8 - 50 - 800 + log ( 12 ) - tan ( 99 ) + cos ( sin ( 8 ) )')
-    Input_str.lexer()
-    Input_str.priority()
-    Input_str.shuntin_yard()
-    Input_str.calc_polish()
+
+# def base():
+#     Input_str = CalcModel('49 - 8 - 50 - 800 + log ( 12 ) - tan ( 99 ) + cos ( sin ( 8 ) )')
+#     Input_str.lexer()
+#     Input_str.priority()
+#     Input_str.shuntin_yard()
+#     Input_str.calc_polish()
 
 
-base()
+# base()
