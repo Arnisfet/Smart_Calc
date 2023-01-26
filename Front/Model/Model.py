@@ -57,11 +57,6 @@ class CalcModel:
             if token == 'acos' or token == 'asin' or token == 'atan' or token == 'cos' or token == 'sin' \
                     or token == 'tan' or token == 'ln' or token == 'log' or token == 'sqrt':
                 lexema.add_value(token, Enumerate.FUNCTION)
-                # value = token[:token.find('e')]
-                # pow = token[token.find('e')+1:]
-                # result = float(value) * (10 ** float(pow))
-                # self._lexems.add()
-                # print(pow, value, result)
                 self._lexems.append(lexema)
             elif token == '(' or token == ')':
                 lexema.add_value(token, Enumerate.BRACKET)
@@ -120,7 +115,13 @@ class CalcModel:
     def calc_polish(self):
         for value in self._polish:
             if value.getToken() == Enumerate.NUMBER:
-                self.result.append(float(value.getValue()))
+                if (value.getValue()).find('e') > 0:
+                    rightpart = (value.getValue())[:(value.getValue()).find('e')]
+                    square = (value.getValue())[(value.getValue()).find('e')+1:]
+                    result = float(rightpart) * (10 ** float(square))
+                    self.result.append(result)
+                else:
+                    self.result.append(float(value.getValue()))
             elif value.getToken() == Enumerate.OPERATION or value.getToken() == Enumerate.FUNCTION:
                 if value.getToken() == Enumerate.OPERATION:
                     if value.getValue() == '+':
@@ -160,7 +161,10 @@ class CalcModel:
                         self.result.append(log(self.result.pop()))
                     elif value.getValue() == 'sqrt':
                         self.result.append(sqrt(self.result.pop()))
-        print(self.result)
+        endres = self.result.pop()
+        if str(endres)[str(endres).find('.')+1:] == '0':
+            return str(int(endres))
+        return str(endres)
 
 
 # def base():
