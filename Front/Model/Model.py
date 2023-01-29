@@ -1,5 +1,7 @@
 import enum
 from math import *
+from decimal import getcontext
+from decimal import Decimal
 
 
 class Enumerate(enum.Enum):
@@ -10,6 +12,9 @@ class Enumerate(enum.Enum):
 
 
 class Lexems:
+    """Класс являющийся полем для основного класса Модели. Основные поля:
+    value - значение, token - enum элемент для лучшей читаемости кода,
+    priority - приоритет вычесления элемента, при условии что токен - действие, а не число"""
     def __init__(self):
         self._value = 0
         self._token = 0
@@ -37,6 +42,12 @@ class Lexems:
 
 
 class CalcModel:
+    """Основной класс расчетной модели (без графика).
+    Основные поля: input_string - входная строка,
+    xvalue - х значение в выражении,
+    _lexems - лист с лексемами класса лексем
+    _polish - лист (стек) с классами лексема но отсоритрованный по shunting yard
+    result - финальный список для обработки польской нотации"""
     def __init__(self, string, xvalue=''):
         self.input_string = string
         self.xvalue = xvalue
@@ -86,6 +97,7 @@ class CalcModel:
             print(lexem.getValue(), lexem.getToken(), lexem.getPriority())
 
     def shuntin_yard(self):
+        """Алгоритм сортировочной станции"""
         Stack = list()
         for lexem in self._lexems:
             if lexem.getToken() == Enumerate.NUMBER:
@@ -113,27 +125,33 @@ class CalcModel:
             print(check.getValue())
 
     def calc_polish(self):
+        """Алгоритм расчета значения из польской нотации"""
+        getcontext().prec = 10
         for value in self._polish:
             if value.getToken() == Enumerate.NUMBER:
-                if (value.getValue()).find('e') > 0:
-                    rightpart = (value.getValue())[:(value.getValue()).find('e')]
-                    square = (value.getValue())[(value.getValue()).find('e')+1:]
-                    result = float(rightpart) * (10 ** float(square))
-                    self.result.append(result)
-                else:
-                    self.result.append(float(value.getValue()))
+                self.result.append(Decimal(value.getValue()))
             elif value.getToken() == Enumerate.OPERATION or value.getToken() == Enumerate.FUNCTION:
                 if value.getToken() == Enumerate.OPERATION:
                     if value.getValue() == '+':
-                        self.result.append(self.result.pop() + self.result.pop())
+                        checker = self.result.pop() + self.result.pop()
+                        print(checker)
+                        self.result.append(checker)
                     elif value.getValue() == '-':
-                        self.result.append(-(self.result.pop() - self.result.pop()))
+                        checker = -(self.result.pop() - self.result.pop())
+                        self.result.append(checker)
                     elif value.getValue() == '*':
-                        self.result.append(self.result.pop()*self.result.pop())
+                        checker = self.result.pop()*self.result.pop()
+                        print(checker)
+                        self.result.append(checker)
                     elif value.getValue() == '/':
                         first = self.result.pop()
                         second = self.result.pop()
-                        self.result.append(second / first)
+                        try:
+                            checker = second / first
+                        except ZeroDivisionError:
+                            return 'Error: Zero Division'
+                        else:
+                            self.result.append(checker)
                     elif value.getValue() == '^':
                         first = self.result.pop()
                         second = self.result.pop()

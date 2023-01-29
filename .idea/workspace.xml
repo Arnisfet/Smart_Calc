@@ -22,8 +22,11 @@
     <list default="true" id="16989752-6b64-4097-9a9c-166cbed3fd2d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Front/Model/Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Front/Model/Model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/Presenter/presenter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Front/Presenter/presenter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/mainwindow.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Front/mainwindow.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/Presenter/presenter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Front/Presenter/Presenter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/View/buttons.py" beforeDir="false" afterPath="$PROJECT_DIR$/Front/View/View.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/Front/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/mainwindow.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Front/View/mainwindow.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/newmodel.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Libft" beforeDir="false" afterPath="$PROJECT_DIR$/Libft" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Libft/libft.h" beforeDir="false" afterPath="$PROJECT_DIR$/Libft/libft.h" afterDir="false" />
     </list>
@@ -118,7 +121,7 @@
       <recent name="$PROJECT_DIR$/libshuntin/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.calc">
+  <component name="RunManager" selected="Python.main">
     <configuration name="GNUmakefile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Smart_Calc" TARGET_NAME="GNUmakefile" CONFIG_NAME="GNUmakefile" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
@@ -134,7 +137,7 @@
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Smart_Calc" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -147,7 +150,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Front/calc.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Front/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -179,12 +182,12 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.main" />
       <item itemvalue="Python.mainwindow" />
-      <item itemvalue="Python.calc" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.calc" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.mainwindow" />
       </list>
     </recent_temporary>
@@ -209,7 +212,8 @@
       <workItem from="1674501844386" duration="5249000" />
       <workItem from="1674582234467" duration="6834000" />
       <workItem from="1674680478000" duration="3556000" />
-      <workItem from="1674755927702" duration="9069000" />
+      <workItem from="1674755927702" duration="9996000" />
+      <workItem from="1674994832634" duration="12016000" />
     </task>
     <servers />
   </component>
@@ -221,7 +225,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -231,15 +247,20 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Front/Presenter/presenter.py</url>
-          <line>89</line>
-          <option name="timeStamp" value="19" />
+          <url>file://$PROJECT_DIR$/Front/Model/Model.py</url>
+          <line>181</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Front/Presenter/Presenter.py</url>
+          <line>140</line>
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Smart_Calc$calc.coverage" NAME="calc Coverage Results" MODIFIED="1674765545724" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front" />
+    <SUITE FILE_PATH="coverage/Smart_Calc$calc.coverage" NAME="calc Coverage Results" MODIFIED="1675014519185" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front" />
     <SUITE FILE_PATH="coverage/Smart_Calc$buttons.coverage" NAME="buttons Coverage Results" MODIFIED="1673292295691" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front/View" />
     <SUITE FILE_PATH="coverage/Smart_Calc$controller.coverage" NAME="controller Coverage Results" MODIFIED="1674401211336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front/Controller" />
     <SUITE FILE_PATH="coverage/Smart_Calc$mainwindow.coverage" NAME="mainwindow Coverage Results" MODIFIED="1674582647754" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front" />

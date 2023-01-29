@@ -1,14 +1,19 @@
 
 from ..Model.Model import *
 
-class Controller:
+class Presenter:
+    """Класс презентер, занимается принятием сигнала от View и передает данные внутр модели
+    при условии запуска расчета"""
     def __init__(self, ui):
         self._dub_flag = 0
         self._exp_flag = 0
         self.ui = ui
+        self.leftbr = 0
+        self.rightbr = 0
         self.add_functions()
 
     def add_functions(self):
+        """Метод отлова клавиш из вью"""
         self.ui.button1.clicked.connect(lambda: self.write_number(self.ui.button1.text()))
         self.ui.button2.clicked.connect(lambda: self.write_number(self.ui.button2.text()))
         self.ui.button3.clicked.connect(lambda: self.write_number(self.ui.button3.text()))
@@ -25,26 +30,67 @@ class Controller:
         self.ui.divivsion.clicked.connect(lambda: self.enter_operation(self.ui.divivsion.text()))
         self.ui.miltiply.clicked.connect(lambda: self.enter_operation(self.ui.miltiply.text()))
         self.ui.square.clicked.connect(lambda: self.enter_operation(self.ui.square.text()))
-        self.ui.leftBR.clicked.connect(lambda: self.write_number(self.ui.leftBR.text()))
-        self.ui.rightBR.clicked.connect(lambda: self.write_number(self.ui.rightBR.text()))
+        self.ui.leftBR.clicked.connect(lambda: self.enter_bracket(self.ui.leftBR.text()))
+        self.ui.rightBR.clicked.connect(lambda: self.enter_bracket(self.ui.rightBR.text()))
         self.ui.ln.clicked.connect(lambda: self.enter_function(self.ui.ln.text()))
         self.ui.log.clicked.connect(lambda: self.enter_function(self.ui.log.text()))
         self.ui.sqrt.clicked.connect(lambda: self.enter_function(self.ui.sqrt.text()))
         self.ui.sin.clicked.connect(lambda: self.enter_function(self.ui.sin.text()))
         self.ui.tg.clicked.connect(lambda: self.enter_function(self.ui.tg.text()))
-        self.ui.mod.clicked.connect(lambda: self.enter_function(self.ui.mod.text()))
+        self.ui.mod.clicked.connect(lambda: self.enter_operation(self.ui.mod.text()))
         self.ui.cos.clicked.connect(lambda: self.enter_function(self.ui.cos.text()))
         self.ui.atg.clicked.connect(lambda: self.enter_function(self.ui.atg.text()))
         self.ui.acos.clicked.connect(lambda: self.enter_function(self.ui.acos.text()))
         self.ui.asin.clicked.connect(lambda: self.enter_function(self.ui.asin.text()))
         self.ui.e.clicked.connect(lambda: self.enter_exp(self.ui.e.text()))
-        self.ui.X_sign.clicked.connect(lambda: self.write_number(self.ui.X_sign.text()))
-        self.ui.drop.clicked.connect(lambda: self.ui.label.setText(""))
+        self.ui.X_sign.clicked.connect(lambda: self.enter_x(self.ui.X_sign.text()))
+        self.ui.drop.clicked.connect(lambda: self.ui.label.setText("0"))
         self.ui.result.clicked.connect(lambda: self.calculate())
         self.ui.droplast.clicked.connect(lambda: self.droplast())
         self.ui.unoper.clicked.connect(lambda: self.unar())
 
+    def enter_bracket(self, bracket):
+        """Функция для ввода скобок"""
+        list1 = (self.ui.label.text()).split()
+        if len(list1) == 0:
+            self.write_number(bracket)
+            return
+        check_oper = list1.pop()
+        if bracket == '(':
+            self.leftbr += 1
+        else:
+            self.rightbr += 1
+        if check_oper == '0':
+            self.ui.label.setText(bracket + ' ')
+        elif (check_oper.isdigit() or check_oper == 'X') and bracket == '(':
+            return
+        elif check_oper.find('.') > 0 or check_oper.find('e') > 0:
+            return
+        elif check_oper == '(' and bracket == ')':
+            return
+        else:
+            self.ui.label.setText(self.ui.label.text() + ' ' + bracket + ' ')
+
+
+    def enter_x(self, x):
+        """Функция для ввода икса"""
+        functions = ['+', '-', '*', '/', 'mod', '(']
+        list1 = (self.ui.label.text()).split()
+        if len(list1) == 0:
+            self.write_number(x)
+            return
+        check_oper = list1.pop()
+        if check_oper == '0':
+            self.ui.label.setText(x)
+        elif check_oper == 'X':
+            return
+        for func in functions:
+            if check_oper == func:
+                operation = ' ' + x + ' '
+                self.write_number(operation)
+
     def enter_dub(self, dub):
+        """Функция для ввода точки"""
         list1 = (self.ui.label.text()).split()
         if len(list1) == 0:
             return
@@ -53,6 +99,7 @@ class Controller:
             self.ui.label.setText(self.ui.label.text() + dub)
 
     def enter_exp(self, exponent):
+        """Функция для ввода экспоненты"""
         operations = ['+', '-', '*', '/', 'ln', 'log', 'sqrt', '^', 'tg', 'cos', 'sin', 'asin', 'mod', 'atag', 'acos',
                       'e', '(', ')', 'X']
         list1 = (self.ui.label.text()).split()
@@ -68,6 +115,7 @@ class Controller:
 
 
     def enter_operation(self, operation):
+        """Функция для вставки операторов"""
         operations = ['+', '-', '*', '/', 'ln', 'log', 'sqrt', '^', 'tg', 'cos', 'sin', 'asin', 'mod', 'atag', 'acos', 'e', '(']
         list1 = (self.ui.label.text()).split()
         if len(list1) == 0:
@@ -78,7 +126,9 @@ class Controller:
         for val in operations:
             if check_oper == val:
                 return
-        if check_oper.find('e') > 0 and self._exp_flag == 0 and (operation == '+' or operation == '-'):
+            # специальные условия для ввода операторов в экспоненциальных выражениях
+        if check_oper.find('e') > 0 and self._exp_flag == 0 and check_oper.find('+') < 0 \
+                and (operation == '+' or operation == '-'):
             self._exp_flag = 1
             self.ui.label.setText(self.ui.label.text() + operation)
             return
@@ -87,6 +137,7 @@ class Controller:
         self._exp_flag = 0
 
     def enter_function(self, function):
+        """Функция для вставки функций внутрь выражения"""
         functions = ['+', '-', '*', '/', 'mod', '(']
         list1 = (self.ui.label.text()).split()
         if len(list1) == 0:
@@ -104,6 +155,7 @@ class Controller:
         self.write_number(function)
 
     def unar(self):
+        """Функция обрабатывающая унарный плюс и унарный минус"""
         check1 = self.ui.label.text()
         list1 = check1.split()
         if len(list1) > 1 or len(list1) == 0:
@@ -115,29 +167,47 @@ class Controller:
             self.ui.label.setText('-'+check1)
 
     def droplast(self):
+        """ Функция удаляющая последний введенный токен"""
         check1 = self.ui.label.text()
         list1 = check1.split()
         if len(list1) == 0:
             return
         list1.pop()
-        check1 = ' '.join(list1)
+        if len(list1) == 0:
+            self.ui.label.setText("0")
+            return
+        else:
+            check1 = ' '.join(list1)
         self.ui.label.setText(check1 + ' ')
 
     def calculate(self):
+        """ Функция связи презентера и модели. Основная функция: передача данных в модель и получение значения.
+        Так же занимается проверкой эксепшенов во всей модели"""
         text = self.ui.XText.toPlainText()
+        if self.leftbr != self.rightbr:
+            self.ui.label.setText("Error: The odd number of brackets")
+            self.rightbr = 0
+            self.leftbr = 0
+            return
         if text.isdigit():
-            Model = CalcModel(self.ui.label.text(), text)
+            Model = CalcModel(self.ui.label.text(), text) # Вызов конструктора модели при условии что есть значения для х.
         else:
             Model = CalcModel(self.ui.label.text())
         Model.lexer()
         Model.priority()
         Model.shuntin_yard()
-        res_value = Model.calc_polish()
-        self.ui.label.setText(res_value)
+        try:
+            res_value = Model.calc_polish()
+        except Exception:
+            self.ui.label.setText('Error: The incorrect formula')
+        else:
+            self.ui.label.setText(res_value + ' ')
 
     def write_number(self, number):
-        # Метод по помещению строки в поле ввода
-        if self.ui.label.text() == "0":
+        """Функция записи цифр"""
+        # Условие при котором мы затираем поле если в конце расчета получили ошибку
+        if self.ui.label.text() == "0" or self.ui.label.text() == 'Error: Zero Division ' or self.ui.label.text() == "Error: The odd number of brackets"\
+                or self.ui.label.text() == "Error: The incorrect formula":
             self.ui.label.setText(number)
         else:
-            self.ui.label.setText(self.ui.label.text() +number)
+            self.ui.label.setText(self.ui.label.text() + number)
