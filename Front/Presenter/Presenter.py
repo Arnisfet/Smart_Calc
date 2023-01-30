@@ -1,5 +1,6 @@
 
 from ..Model.Model import *
+from PyQt5.QtWidgets import QMessageBox
 
 class Presenter:
     """Класс презентер, занимается принятием сигнала от View и передает данные внутр модели
@@ -10,6 +11,8 @@ class Presenter:
         self.ui = ui
         self.leftbr = 0
         self.rightbr = 0
+        self.ui.label.setWordWrap(True)
+        self.read_history()
         self.add_functions()
 
     def add_functions(self):
@@ -48,9 +51,16 @@ class Presenter:
         self.ui.result.clicked.connect(lambda: self.calculate())
         self.ui.droplast.clicked.connect(lambda: self.droplast())
         self.ui.unoper.clicked.connect(lambda: self.unar())
+        self.ui.history_clean.clicked.connect(lambda: self.clean_history())
+
+    def clean_history(self):
+        f = open("../History.txt", 'w')
+        f.close()
+        self.read_history()
 
     def enter_bracket(self, bracket):
         """Функция для ввода скобок"""
+        self.check_error()
         list1 = (self.ui.label.text()).split()
         if len(list1) == 0:
             self.write_number(bracket)
@@ -74,6 +84,7 @@ class Presenter:
 
     def enter_x(self, x):
         """Функция для ввода икса"""
+        self.check_error()
         functions = ['+', '-', '*', '/', 'mod', '(']
         list1 = (self.ui.label.text()).split()
         if len(list1) == 0:
@@ -91,6 +102,7 @@ class Presenter:
 
     def enter_dub(self, dub):
         """Функция для ввода точки"""
+        self.check_error()
         list1 = (self.ui.label.text()).split()
         if len(list1) == 0:
             return
@@ -100,6 +112,7 @@ class Presenter:
 
     def enter_exp(self, exponent):
         """Функция для ввода экспоненты"""
+        self.check_error()
         operations = ['+', '-', '*', '/', 'ln', 'log', 'sqrt', '^', 'tg', 'cos', 'sin', 'asin', 'mod', 'atag', 'acos',
                       'e', '(', ')', 'X']
         list1 = (self.ui.label.text()).split()
@@ -116,6 +129,7 @@ class Presenter:
 
     def enter_operation(self, operation):
         """Функция для вставки операторов"""
+        self.check_error()
         operations = ['+', '-', '*', '/', 'ln', 'log', 'sqrt', '^', 'tg', 'cos', 'sin', 'asin', 'mod', 'atag', 'acos', 'e', '(']
         list1 = (self.ui.label.text()).split()
         if len(list1) == 0:
@@ -137,6 +151,7 @@ class Presenter:
         self._exp_flag = 0
 
     def enter_function(self, function):
+        self.check_error()
         """Функция для вставки функций внутрь выражения"""
         functions = ['+', '-', '*', '/', 'mod', '(']
         list1 = (self.ui.label.text()).split()
@@ -155,6 +170,7 @@ class Presenter:
         self.write_number(function)
 
     def unar(self):
+        self.check_error()
         """Функция обрабатывающая унарный плюс и унарный минус"""
         check1 = self.ui.label.text()
         list1 = check1.split()
@@ -167,6 +183,7 @@ class Presenter:
             self.ui.label.setText('-'+check1)
 
     def droplast(self):
+        self.check_error()
         """ Функция удаляющая последний введенный токен"""
         check1 = self.ui.label.text()
         list1 = check1.split()
@@ -184,6 +201,7 @@ class Presenter:
         """ Функция связи презентера и модели. Основная функция: передача данных в модель и получение значения.
         Так же занимается проверкой эксепшенов во всей модели"""
         text = self.ui.XText.toPlainText()
+        # Вот это говно конечно со скобочками...
         if self.leftbr != self.rightbr:
             self.ui.label.setText("Error: The odd number of brackets")
             self.rightbr = 0
@@ -193,6 +211,7 @@ class Presenter:
             Model = CalcModel(self.ui.label.text(), text) # Вызов конструктора модели при условии что есть значения для х.
         else:
             Model = CalcModel(self.ui.label.text())
+        self.read_history()
         Model.lexer()
         Model.priority()
         Model.shuntin_yard()
@@ -203,11 +222,48 @@ class Presenter:
         else:
             self.ui.label.setText(res_value + ' ')
 
+    def read_history(self):
+        # Работа с записью истории в лейбл
+        try:
+            read_f = open("../History.txt", 'r')
+        except IOError:
+            error = QMessageBox()
+            error.setWindowTitle("Error")
+            error.setText("Presenter Can't find the history file!")
+            error.setStandardButtons(QMessageBox.Ok)
+            error.exec_()
+            exit()
+        else:
+            line = read_f.readlines()
+            if line:
+                self.ui.history.setText(line[-1])
+            else:
+                self.ui.history.setText("")
+            read_f.close()
+
     def write_number(self, number):
         """Функция записи цифр"""
+        self.check_error()
         # Условие при котором мы затираем поле если в конце расчета получили ошибку
         if self.ui.label.text() == "0" or self.ui.label.text() == 'Error: Zero Division ' or self.ui.label.text() == "Error: The odd number of brackets"\
                 or self.ui.label.text() == "Error: The incorrect formula":
             self.ui.label.setText(number)
         else:
             self.ui.label.setText(self.ui.label.text() + number)
+
+    def check_error(self):
+        error = QMessageBox()
+        error.setWindowTitle("Error")
+        list1 = (self.ui.label.text()).split()
+        if len(list1) > 0:
+            check_len = list1.pop()
+        if len(self.ui.label.text()) > 255:
+            error.setText("You can't put more than 250 symbols in one calc iteration!")
+            error.setStandardButtons(QMessageBox.Ok)
+            error.exec_()
+        elif len(check_len) > 49:
+            error.setText(
+                "Sorry, but you can't put an argument with size more than 50 symbols.\n Please, try to use an "
+                "exponential form for big numbers!")
+            error.setStandardButtons(QMessageBox.Ok)
+            error.exec_()

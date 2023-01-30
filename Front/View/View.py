@@ -10,5 +10,6 @@ class App(QWidget):
         self.controller = Presenter(self.ui)
 
     def start(self):
+
         self.ui = uic.loadUi("View/mainwindow.ui")
         self.ui.show()

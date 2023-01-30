@@ -50,10 +50,16 @@ class CalcModel:
     result - финальный список для обработки польской нотации"""
     def __init__(self, string, xvalue=''):
         self.input_string = string
+        self.FileManagment()
         self.xvalue = xvalue
         self._lexems = list()
         self._polish = list()
         self.result = list()
+
+    def FileManagment(self):
+        history_f = open("../History.txt", 'a')
+        history_f.write(self.input_string + '\n')
+        history_f.close()
 
     def getValue(self):
         return str(self.result.pop())
