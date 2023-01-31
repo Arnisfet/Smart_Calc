@@ -1,10 +1,11 @@
-
 from ..Model.Model import *
 from PyQt5.QtWidgets import QMessageBox
+
 
 class Presenter:
     """Класс презентер, занимается принятием сигнала от View и передает данные внутр модели
     при условии запуска расчета"""
+
     def __init__(self, ui):
         self._dub_flag = 0
         self._exp_flag = 0
@@ -12,7 +13,9 @@ class Presenter:
         self.leftbr = 0
         self.rightbr = 0
         self.ui.label.setWordWrap(True)
+        self.history_point = 0
         self.read_history()
+        self.history_point = sum(1 for line in open("../History.txt")) - 1
         self.add_functions()
 
     def add_functions(self):
@@ -52,12 +55,36 @@ class Presenter:
         self.ui.droplast.clicked.connect(lambda: self.droplast())
         self.ui.unoper.clicked.connect(lambda: self.unar())
         self.ui.history_clean.clicked.connect(lambda: self.clean_history())
+        self.ui.up.clicked.connect(lambda: self.up_history())
+        self.ui.down.clicked.connect(lambda: self.down_history())
+        self.ui.load.clicked.connect(lambda: self.load_history())
+
+    def up_history(self):
+        if self.history_point > 0:
+            self.history_point -= 1
+        f = open("../History.txt")
+        line = f.read().split('\n')[self.history_point]
+        if line != '\n' or line != '':
+            self.ui.history.setText(line)
+        f.close()
+
+    def down_history(self):
+        if self.history_point < (sum(1 for line in open("../History.txt")) - 1):
+            self.history_point += 1
+        f = open("../History.txt")
+        line = f.read().split('\n')[self.history_point]
+        if line != '\n' or line != '':
+            self.ui.history.setText(line)
+        f.close()
 
     def clean_history(self):
         f = open("../History.txt", 'w')
         f.close()
+        self.history_point = 0
         self.read_history()
 
+    def load_history(self):
+        self.ui.label.setText(self.ui.history.text())
     def enter_bracket(self, bracket):
         """Функция для ввода скобок"""
         self.check_error()
@@ -80,7 +107,6 @@ class Presenter:
             return
         else:
             self.ui.label.setText(self.ui.label.text() + ' ' + bracket + ' ')
-
 
     def enter_x(self, x):
         """Функция для ввода икса"""
@@ -126,11 +152,11 @@ class Presenter:
                 return
         self.ui.label.setText(self.ui.label.text() + exponent)
 
-
     def enter_operation(self, operation):
         """Функция для вставки операторов"""
         self.check_error()
-        operations = ['+', '-', '*', '/', 'ln', 'log', 'sqrt', '^', 'tg', 'cos', 'sin', 'asin', 'mod', 'atag', 'acos', 'e', '(']
+        operations = ['+', '-', '*', '/', 'ln', 'log', 'sqrt', '^', 'tg', 'cos', 'sin', 'asin', 'mod', 'atag', 'acos',
+                      'e', '(']
         list1 = (self.ui.label.text()).split()
         if len(list1) == 0:
             return
@@ -146,7 +172,7 @@ class Presenter:
             self._exp_flag = 1
             self.ui.label.setText(self.ui.label.text() + operation)
             return
-        operation = ' '+operation+' '
+        operation = ' ' + operation + ' '
         self.write_number(operation)
         self._exp_flag = 0
 
@@ -166,7 +192,7 @@ class Presenter:
                 break
             else:
                 return
-        function = ' '+function+' '
+        function = ' ' + function + ' '
         self.write_number(function)
 
     def unar(self):
@@ -180,7 +206,7 @@ class Presenter:
             newtext = check1[1:]
             self.ui.label.setText(newtext)
         else:
-            self.ui.label.setText('-'+check1)
+            self.ui.label.setText('-' + check1)
 
     def droplast(self):
         self.check_error()
@@ -208,9 +234,11 @@ class Presenter:
             self.leftbr = 0
             return
         if text.isdigit():
-            Model = CalcModel(self.ui.label.text(), text) # Вызов конструктора модели при условии что есть значения для х.
+            Model = CalcModel(self.ui.label.text(),
+                              text)  # Вызов конструктора модели при условии что есть значения для х.
         else:
             Model = CalcModel(self.ui.label.text())
+        self.history_point += 1
         self.read_history()
         Model.lexer()
         Model.priority()
@@ -224,19 +252,22 @@ class Presenter:
 
     def read_history(self):
         # Работа с записью истории в лейбл
+        line = 0
         try:
             read_f = open("../History.txt", 'r')
         except IOError:
             error = QMessageBox()
             error.setWindowTitle("Error")
-            error.setText("Presenter Can't find the history file!")
+            error.setText("The history file was recreated!")
             error.setStandardButtons(QMessageBox.Ok)
             error.exec_()
-            exit()
+            read_f = open("../History.txt", 'w')
+            read_f.close()
         else:
-            line = read_f.readlines()
+            if self.history_point >= 0:
+                line = read_f.read().split('\n')[sum(1 for line in open("../History.txt")) - 1]
             if line:
-                self.ui.history.setText(line[-1])
+                self.ui.history.setText(line)
             else:
                 self.ui.history.setText("")
             read_f.close()
@@ -245,7 +276,7 @@ class Presenter:
         """Функция записи цифр"""
         self.check_error()
         # Условие при котором мы затираем поле если в конце расчета получили ошибку
-        if self.ui.label.text() == "0" or self.ui.label.text() == 'Error: Zero Division ' or self.ui.label.text() == "Error: The odd number of brackets"\
+        if self.ui.label.text() == "0" or self.ui.label.text() == 'Error: Zero Division ' or self.ui.label.text() == "Error: The odd number of brackets" \
                 or self.ui.label.text() == "Error: The incorrect formula":
             self.ui.label.setText(number)
         else:
@@ -255,6 +286,7 @@ class Presenter:
         error = QMessageBox()
         error.setWindowTitle("Error")
         list1 = (self.ui.label.text()).split()
+        check_len = list()
         if len(list1) > 0:
             check_len = list1.pop()
         if len(self.ui.label.text()) > 255:
