@@ -1,5 +1,6 @@
 from ..Model.Model import *
 from PyQt5.QtWidgets import QMessageBox
+from pyqtgraph import PlotWidget, plot
 
 
 class Presenter:
@@ -58,6 +59,24 @@ class Presenter:
         self.ui.up.clicked.connect(lambda: self.up_history())
         self.ui.down.clicked.connect(lambda: self.down_history())
         self.ui.load.clicked.connect(lambda: self.load_history())
+        self.ui.graph_button.clicked.connect(lambda: self.calculate_graph())
+
+    def calculate_graph(self):
+        y = [0] * 20000
+        res = -1
+        for x in range(-10000, 10000):
+            Model = CalcModel(self.ui.label.text(), x)
+            Model.lexer()
+            Model.priority()
+            Model.shuntin_yard()
+            try:
+                res_value = Model.calc_polish()
+            except Exception:
+                self.ui.label.setText('Error: The incorrect formula')
+            res += 1
+            y[res] = res_value
+        self.ui.graph.plot([range(-10000, 10000)], y)
+
 
     def up_history(self):
         if self.history_point > 0:
@@ -299,3 +318,5 @@ class Presenter:
                 "exponential form for big numbers!")
             error.setStandardButtons(QMessageBox.Ok)
             error.exec_()
+    def plot(self, hour, temperature):
+        self.ui.graph.plot(hour, temperature)
