@@ -1,47 +1,5 @@
-import enum
-from math import *
-from decimal import getcontext
-from decimal import Decimal
-
-
-class Enumerate(enum.Enum):
-    NUMBER = 1
-    OPERATION = 2
-    FUNCTION = 3
-    BRACKET = 4
-
-
-class Lexems:
-    """Класс являющийся полем для основного класса Модели. Основные поля:
-    value - значение, token - enum элемент для лучшей читаемости кода,
-    priority - приоритет вычесления элемента, при условии что токен - действие, а не число"""
-    def __init__(self):
-        self._value = 0
-        self._token = 0
-        self._priority = 0
-
-    # Getter part
-    def add_value(self, value, token):
-        self._value = value
-        self._token = token
-
-    def getValue(self):
-        """ Геттер лежащего значения """
-        return self._value
-
-    def getToken(self):
-        """ Геттер лежащего токена """
-        return self._token
-
-    def getPriority(self):
-        return self._priority
-
-    # Setter part
-    def setPriority(self, priority):
-        self._priority = priority
-
-
-class CalcModel:
+from .Model import *
+class GraphModel:
     """Основной класс расчетной модели (без графика).
     Основные поля: input_string - входная строка,
     xvalue - х значение в выражении,
@@ -50,16 +8,10 @@ class CalcModel:
     result - финальный список для обработки польской нотации"""
     def __init__(self, string, xvalue=''):
         self.input_string = string
-        self.FileManagment()
         self.xvalue = xvalue
         self._lexems = list()
         self._polish = list()
         self.result = list()
-
-    def FileManagment(self):
-        history_f = open("../History.txt", 'a')
-        history_f.write(self.input_string + '\n')
-        history_f.close()
 
     def getValue(self):
         return str(self.result.pop())
@@ -69,10 +21,13 @@ class CalcModel:
         self.tokens = self.input_string.split()
         for token in self.tokens:
             lexema = Lexems()
-            if token == 'X':
-                token = self.xvalue
+            if token.find('X') >= 0:
+                if token.find('-') >= 0 and self.xvalue.find('-') < 0:
+                    token = '-' + self.xvalue
+                else:
+                    token = self.xvalue
             if token == 'acos' or token == 'asin' or token == 'atan' or token == 'cos' or token == 'sin' \
-                    or token == 'tan' or token == 'ln' or token == 'log' or token == 'sqrt':
+                     or token == 'ln' or token == 'log' or token == 'sqrt' or token == 'tg':
                 lexema.add_value(token, Enumerate.FUNCTION)
                 self._lexems.append(lexema)
             elif token == '(' or token == ')':
@@ -171,7 +126,7 @@ class CalcModel:
                         self.result.append(sin(self.result.pop()))
                     elif value.getValue() == 'cos':
                         self.result.append(cos(self.result.pop()))
-                    elif value.getValue() == 'tan':
+                    elif value.getValue() == 'tg':
                         self.result.append(tan(self.result.pop()))
                     elif value.getValue() == 'asin':
                         self.result.append(asin(self.result.pop()))

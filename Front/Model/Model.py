@@ -69,10 +69,13 @@ class CalcModel:
         self.tokens = self.input_string.split()
         for token in self.tokens:
             lexema = Lexems()
-            if token == 'X':
-                token = self.xvalue
+            if token.find('X') >= 0:
+                if token.find('-') >= 0 and self.xvalue.find('-') < 0:
+                    token = '-' + self.xvalue
+                else:
+                    token = self.xvalue
             if token == 'acos' or token == 'asin' or token == 'atan' or token == 'cos' or token == 'sin' \
-                    or token == 'tan' or token == 'ln' or token == 'log' or token == 'sqrt':
+                     or token == 'ln' or token == 'log' or token == 'sqrt' or token == 'tg':
                 lexema.add_value(token, Enumerate.FUNCTION)
                 self._lexems.append(lexema)
             elif token == '(' or token == ')':
@@ -171,7 +174,7 @@ class CalcModel:
                         self.result.append(sin(self.result.pop()))
                     elif value.getValue() == 'cos':
                         self.result.append(cos(self.result.pop()))
-                    elif value.getValue() == 'tan':
+                    elif value.getValue() == 'tg':
                         self.result.append(tan(self.result.pop()))
                     elif value.getValue() == 'asin':
                         self.result.append(asin(self.result.pop()))

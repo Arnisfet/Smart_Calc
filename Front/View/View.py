@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from PyQt5 import uic
 from Front.Presenter.Presenter import Presenter
+from Front.Presenter.GraphPresenter import GraphPresenter
 
 
 class App(QMainWindow):
@@ -8,7 +9,8 @@ class App(QMainWindow):
         super(App, self).__init__()
         self.ui = None
         self.start()
-        self.controller = Presenter(self.ui)
+        self.presenter = Presenter(self.ui)
+        self.graph_presenter = GraphPresenter(self.ui)
 
     def start(self):
 
