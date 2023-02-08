@@ -12,23 +12,35 @@ class GraphPresenter:
     def add_functions(self):
         """Метод отлова клавиш из вью"""
         self.ui.graph_button.clicked.connect(lambda: self.calculate_graph())
+        self.ui.cleargraph.clicked.connect(lambda: self.ui.graph.clear())
+        self.ui.copy.clicked.connect(lambda: self.ui.functionlab.setText(self.ui.label.text()))
 
     def calculate_graph(self):
         y = []
         x = []
         res_value = 0.
-        iter = -10000
-        res = log(-1000)
-        while iter < 10000:
-            Model = GraphModel(self.ui.label.text(), str(iter))
+        try:
+            xmin = float(self.ui.xminval.toPlainText())
+            xmax = float(self.ui.xmaxval.toPlainText())
+        except ValueError:
+            self.ui.Error.setText('Error: The incorrect x values!!!')
+            return None
+        iter = xmin
+        while iter < 100000 and iter <= xmax and iter > -100000 and iter >= xmin:
+            Model = GraphModel(self.ui.functionlab.text(), str(iter))
             Model.lexer()
             Model.priority()
             Model.shuntin_yard()
             try:
                 res_value = float(Model.calc_polish())
+            except ValueError:
+                iter += 0.2
+                continue
             except Exception:
-                self.ui.label.setText('Error: The incorrect formula')
+                self.ui.Error.setText('Error: The incorrect formula')
+                return None
             y.append(res_value)
             x.append(iter)
-            iter += 0.1
-        self.ui.graph.plot(x, y)
+            iter += 0.2
+        self.ui.graph.plot(x, y, pen=None, symbol = 'o')
+        self.ui.Error.setText('')

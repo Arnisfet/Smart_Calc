@@ -20,14 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16989752-6b64-4097-9a9c-166cbed3fd2d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Front/Model/GraphModel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Front/Presenter/GraphPresenter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/Model/Model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Front/Model/Model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/Model/ModelGraph.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/Presenter/GraphPresenter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Front/Presenter/GraphPresenter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Front/Presenter/Presenter.py" beforeDir="false" afterPath="$PROJECT_DIR$/Front/Presenter/Presenter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Front/View/View.py" beforeDir="false" afterPath="$PROJECT_DIR$/Front/View/View.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/History.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Front/View/mainwindow.ui" beforeDir="false" afterPath="$PROJECT_DIR$/Front/View/mainwindow.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/History.txt" beforeDir="false" afterPath="$PROJECT_DIR$/History.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Libft" beforeDir="false" afterPath="$PROJECT_DIR$/Libft" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Libft/libft.h" beforeDir="false" afterPath="$PROJECT_DIR$/Libft/libft.h" afterDir="false" />
     </list>
@@ -219,7 +216,8 @@
       <workItem from="1675104111510" duration="9085000" />
       <workItem from="1675203168803" duration="5354000" />
       <workItem from="1675360647379" duration="9494000" />
-      <workItem from="1675614002671" duration="10610000" />
+      <workItem from="1675614002671" duration="10690000" />
+      <workItem from="1675881353862" duration="5655000" />
     </task>
     <servers />
   </component>
@@ -259,8 +257,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Front/Presenter/GraphPresenter.py</url>
-          <line>19</line>
-          <option name="timeStamp" value="22" />
+          <line>33</line>
+          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -270,7 +268,7 @@
     <SUITE FILE_PATH="coverage/Smart_Calc$buttons.coverage" NAME="buttons Coverage Results" MODIFIED="1673292295691" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front/View" />
     <SUITE FILE_PATH="coverage/Smart_Calc$controller.coverage" NAME="controller Coverage Results" MODIFIED="1674401211336" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front/Controller" />
     <SUITE FILE_PATH="coverage/Smart_Calc$mainwindow.coverage" NAME="mainwindow Coverage Results" MODIFIED="1674582647754" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front" />
-    <SUITE FILE_PATH="coverage/Smart_Calc$main.coverage" NAME="main Coverage Results" MODIFIED="1675626219332" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front" />
+    <SUITE FILE_PATH="coverage/Smart_Calc$main.coverage" NAME="main Coverage Results" MODIFIED="1675887093464" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front" />
     <SUITE FILE_PATH="coverage/Smart_Calc$calculating.coverage" NAME="calculating Coverage Results" MODIFIED="1674301312960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front/Model" />
     <SUITE FILE_PATH="coverage/Smart_Calc$Model.coverage" NAME="Model Coverage Results" MODIFIED="1674588309886" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Front/Model" />
   </component>

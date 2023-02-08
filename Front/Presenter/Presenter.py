@@ -186,17 +186,15 @@ class Presenter:
         list1 = (self.ui.label.text()).split()
         if len(list1) == 0:
             self.write_number(function)
-            return
+            return None
         check_oper = list1.pop()
         if check_oper == '0':
             self.ui.label.setText(function)
         for val in functions:
             if check_oper == val:
+                function = ' ' + function + ' '
+                self.write_number(function)
                 break
-            else:
-                return
-        function = ' ' + function + ' '
-        self.write_number(function)
 
     def unar(self):
         self.check_error()
