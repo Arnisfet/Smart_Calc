@@ -234,10 +234,11 @@ class Presenter:
             self.rightbr = 0
             self.leftbr = 0
             return
-        if text.isdigit():
+        try:
+            num = float(text)
             Model = CalcModel(self.ui.label.text(),
                               text)  # Вызов конструктора модели при условии что есть значения для х.
-        else:
+        except:
             Model = CalcModel(self.ui.label.text())
         self.history_point += 1
         self.read_history()
@@ -300,6 +301,3 @@ class Presenter:
                 "exponential form for big numbers!")
             error.setStandardButtons(QMessageBox.Ok)
             error.exec_()
-
-    def plot(self, hour, temperature):
-        self.ui.graph.plot(hour, temperature)

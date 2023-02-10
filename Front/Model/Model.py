@@ -70,9 +70,6 @@ class CalcModel:
         for token in self.tokens:
             lexema = Lexems()
             if token.find('X') >= 0:
-                if token.find('-') >= 0 and self.xvalue.find('-') < 0:
-                    token = '-' + self.xvalue
-                else:
                     token = self.xvalue
             if token == 'acos' or token == 'asin' or token == 'atan' or token == 'cos' or token == 'sin' \
                      or token == 'ln' or token == 'log' or token == 'sqrt' or token == 'tg':
