@@ -1,0 +1,21 @@
+Error: The odd number of brackets
+Error: The incorrect formula
+Error: The incorrect formula
+Error: The incorrect formula
+Error: The incorrect formula
+1.23 + 65.2e+4
+652001.23 - ln ( 4 ) 
+ln ( 4 ) 
+652001.23 - ln ( 4 ) 
+652001.23 - ln ( 4 ) 
+652001.23 - ln ( 4 ) 
+652001.23 - ln ( 4 ) 
+652001.23 - ln ( 4 ) 
+652001.23 - ln ( 4 ) 
+652001.23 - ln ( 4 ) 
+652001.23 - ln ( 4 ) 
+6.23 -  sin  ( 1 ) 
+6.23 -  sin  ( 1 ) 
+4 ^ 2 + 5
+4 mod 2 +  ln  (  X  ) 
+ln (  X  + 4 )  - 43 mod 2 *  log  (  sin  (  X  )  ) 

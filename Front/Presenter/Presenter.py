@@ -96,20 +96,21 @@ class Presenter:
             self.write_number(bracket)
             return
         check_oper = list1.pop()
-        if bracket == '(':
-            self.leftbr += 1
-        else:
-            self.rightbr += 1
+
         if check_oper == '0':
             self.ui.label.setText(bracket + ' ')
         elif (check_oper.isdigit() or check_oper == 'X') and bracket == '(':
             return
-        elif check_oper.find('.') > 0 or check_oper.find('e') > 0:
-            return
+        # elif check_oper.find('.') > 0 or check_oper.find('e') > 0:
+        #     return
         elif check_oper == '(' and bracket == ')':
             return
         else:
             self.ui.label.setText(self.ui.label.text() + ' ' + bracket + ' ')
+            if bracket == '(':
+                self.leftbr += 1
+            else:
+                self.rightbr += 1
 
     def enter_x(self, x):
         """Функция для ввода икса"""
@@ -235,7 +236,7 @@ class Presenter:
             self.leftbr = 0
             return
         try:
-            num = float(text)
+            num = Decimal(text)
             Model = CalcModel(self.ui.label.text(),
                               text)  # Вызов конструктора модели при условии что есть значения для х.
         except:
@@ -245,12 +246,14 @@ class Presenter:
         Model.lexer()
         Model.priority()
         Model.shuntin_yard()
-        try:
-            res_value = Model.calc_polish()
-        except Exception:
-            self.ui.label.setText('Error: The incorrect formula')
-        else:
-            self.ui.label.setText(res_value + ' ')
+        # try:
+        res_value = Model.calc_polish()
+        # except Exception:
+        self.ui.label.setText('Error: The incorrect formula')
+        # else:
+        self.ui.label.setText(res_value + ' ')
+        self.rightbr = 0
+        self.leftbr = 0
 
     def read_history(self):
         # Работа с записью истории в лейбл

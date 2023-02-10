@@ -168,23 +168,23 @@ class CalcModel:
                         self.result.append(second % first)
                 else:
                     if value.getValue() == 'sin':
-                        self.result.append(sin(self.result.pop()))
+                        self.result.append(Decimal(sin(self.result.pop())))
                     elif value.getValue() == 'cos':
-                        self.result.append(cos(self.result.pop()))
+                        self.result.append(Decimal(cos(self.result.pop())))
                     elif value.getValue() == 'tg':
-                        self.result.append(tan(self.result.pop()))
+                        self.result.append(Decimal(tan(self.result.pop())))
                     elif value.getValue() == 'asin':
-                        self.result.append(asin(self.result.pop()))
+                        self.result.append(Decimal(asin(self.result.pop())))
                     elif value.getValue() == 'acos':
-                        self.result.append(acos(self.result.pop()))
+                        self.result.append(Decimal(acos(self.result.pop())))
                     elif value.getValue() == 'atan':
-                        self.result.append(atan(self.result.pop()))
+                        self.result.append(Decimal(atan(self.result.pop())))
                     elif value.getValue() == 'log':
-                        self.result.append(log10(self.result.pop()))
+                        self.result.append(Decimal(log10(self.result.pop())))
                     elif value.getValue() == 'ln':
-                        self.result.append(log(self.result.pop()))
+                        self.result.append(Decimal(log(self.result.pop())))
                     elif value.getValue() == 'sqrt':
-                        self.result.append(sqrt(self.result.pop()))
+                        self.result.append(Decimal(sqrt(self.result.pop())))
         endres = self.result.pop()
         if str(endres)[str(endres).find('.')+1:] == '0':
             return str(int(endres))
