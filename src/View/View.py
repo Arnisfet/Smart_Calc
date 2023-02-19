@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from PyQt5 import uic
-from Front.Presenter.Presenter import Presenter
-from Front.Presenter.GraphPresenter import GraphPresenter
+from ..Presenter.Presenter import Presenter
+from ..Presenter.GraphPresenter import GraphPresenter
 
 
 class App(QMainWindow):
@@ -14,7 +14,7 @@ class App(QMainWindow):
 
     def start(self):
 
-        self.ui = uic.loadUi("View/mainwindow.ui")
+        self.ui = uic.loadUi("/home/arnisfet/Desktop/Smart_Calc/src/View/mainwindow.ui")
 
         self.ui.show()
 
