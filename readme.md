@@ -63,7 +63,7 @@ The main restriction:
 3. Take care about unbehavior calculations like LOG(-1). It will throw an exception.
 4. Of course you mustn't divide the zero.
 
-## Errors
+## Author
 
 Arnisfet (MRudge from 42 Ecole). Good Luck to use it puppy!
 
